@@ -1,7 +1,7 @@
 require('dotenv').config();
 import { DMChannel, NewsChannel, TextChannel } from 'discord.js';
 import { sendError } from '../../../../helpers/sendError';
-import { ErrorType } from '../../../../types/index';
+import { ErrorType } from '../../../../types';
 const axios = require('axios');
 
 const BASEURL = process.env.BASEURL;
@@ -21,7 +21,7 @@ export const handleRecommendCommand = (
       const response = await axios.get(
         `${BASEURL}/api/recommendations?type=${type}`
       );
-      await channel.send(response.data[0].slug);
+      await channel.send(`${BASEURL}/books/${response.data[0].slug}`);
     } catch (err) {
       console.error(err);
       sendError(ErrorType.api, channel);
