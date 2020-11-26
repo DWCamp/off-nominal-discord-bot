@@ -15,7 +15,6 @@ describe('recommend', () => {
     client = new Discord.Client();
     guild = new Discord.Guild(client);
     channel = new Discord.TextChannel(guild, { type: 'text' });
-    jest.spyOn(channel, 'send');
   });
 
   afterEach(() => {
@@ -25,10 +24,12 @@ describe('recommend', () => {
   it('should make a correct GET call and send a message if argument is random and API succeeds', () => {
     const arg = 'random';
     const slug = 'expected-slug';
-    const mockedChannel = channel as jest.Mocked<typeof channel>;
+
     mockedAxios.get.mockResolvedValueOnce({ data: [{ slug }] });
+
+    const mockedSend = jest.spyOn(channel, 'send');
     const message = new Discord.Message();
-    mockedChannel.send.mockResolvedValueOnce(message);
+    mockedSend.mockResolvedValueOnce(message);
 
     handleRecommendCommand(arg, channel);
 
@@ -36,9 +37,9 @@ describe('recommend', () => {
     expect(axios.get).toHaveBeenCalledWith(
       `https://books.offnominal.space/api/recommendations?type=${arg}`
     );
-    // expect(mockedChannel.send).toHaveBeenCalledTimes(1);
-    // expect(mockedChannel.send).toHaveBeenCalledWith(
-    //   `https://books.offnominal.space/books/${slug}`
-    // );
+    expect(mockedSend).toHaveBeenCalledTimes(1);
+    expect(mockedSend).toHaveBeenCalledWith(
+      `https://books.offnominal.space/books/${slug}`
+    );
   });
 });

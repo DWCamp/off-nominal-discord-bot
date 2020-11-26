@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
-import { Message, MessageEmbed } from 'discord.js';
+import { DMChannel, MessageEmbed, NewsChannel, TextChannel } from 'discord.js';
 
-export const handleHelpCommand = (message: Message) => {
+export const handleHelpCommand = async (
+  channel: TextChannel | DMChannel | NewsChannel
+) => {
   const embed: MessageEmbed = new Discord.MessageEmbed();
 
   embed
@@ -25,5 +27,9 @@ export const handleHelpCommand = (message: Message) => {
         value: `Gives you the book with the most community favourites in the last 60 days. And yes, that's favourite with a "u". :flag_ca:`,
       }
     );
-  message.channel.send(embed);
+  try {
+    await channel.send(embed);
+  } catch (err) {
+    console.error('Failed to send embed');
+  }
 };

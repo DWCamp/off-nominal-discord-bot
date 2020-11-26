@@ -13,6 +13,6 @@ export const handleMessage = (message: Message) => {
   if (command === `recommend`) {
     handleRecommendCommand(args[0], channel);
   } else if (command === 'help') {
-    handleHelpCommand(message);
+    handleHelpCommand(channel);
   }
 };

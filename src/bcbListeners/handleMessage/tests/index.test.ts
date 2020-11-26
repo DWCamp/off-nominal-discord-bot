@@ -75,7 +75,7 @@ describe('handleMessage', () => {
 
     expect(handleRecommendCommand).toHaveBeenCalledTimes(0);
     expect(handleHelpCommand).toHaveBeenCalledTimes(1);
-    expect(handleHelpCommand).toHaveBeenCalledWith(message);
+    expect(handleHelpCommand).toHaveBeenCalledWith(channel);
   });
 
   it('should not call anything if the command is wrong', () => {
