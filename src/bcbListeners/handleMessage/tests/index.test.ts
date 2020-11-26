@@ -60,7 +60,7 @@ describe('handleMessage', () => {
     handleMessage(message);
 
     expect(handleRecommendCommand).toHaveBeenCalledTimes(1);
-    expect(handleRecommendCommand).toHaveBeenCalledWith(arg, message);
+    expect(handleRecommendCommand).toHaveBeenCalledWith(arg, channel);
     expect(handleHelpCommand).toHaveBeenCalledTimes(0);
   });
 

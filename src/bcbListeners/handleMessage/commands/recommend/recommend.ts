@@ -1,6 +1,7 @@
-import { Message } from 'discord.js';
+require('dotenv').config();
+import { DMChannel, NewsChannel, TextChannel } from 'discord.js';
 import { sendError } from '../../../../helpers/sendError';
-import { ErrorType } from '../../../../types';
+import { ErrorType } from '../../../../types/index';
 const axios = require('axios');
 
 const BASEURL = process.env.BASEURL;
@@ -11,21 +12,20 @@ enum RecommendCommand {
   favourite = 'favourite',
 }
 
-export const handleRecommendCommand = (arg: string, message: Message) => {
-  const { channel } = message;
-
-  const sendRecommendation = (slug) => {
-    channel.send(`${BASEURL}/books/${slug}`);
-  };
-
-  const handleCommand = (type: RecommendCommand) => {
-    axios
-      .get(`${BASEURL}/api/recommendations?type=${type}`)
-      .then((response) => sendRecommendation(response.data[0].slug))
-      .catch((err) => {
-        console.error(err);
-        sendError(ErrorType.api, channel);
-      });
+export const handleRecommendCommand = (
+  arg: string,
+  channel: TextChannel | DMChannel | NewsChannel
+) => {
+  const handleCommand = async (type: RecommendCommand) => {
+    try {
+      const response = await axios.get(
+        `${BASEURL}/api/recommendations?type=${type}`
+      );
+      await channel.send(response.data[0].slug);
+    } catch (err) {
+      console.error(err);
+      sendError(ErrorType.api, channel);
+    }
   };
 
   switch (arg) {
