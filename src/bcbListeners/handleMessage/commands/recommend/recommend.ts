@@ -1,4 +1,6 @@
 import { Message } from 'discord.js';
+import { sendError } from '../../../../helpers/sendError';
+import { ErrorType } from '../../../../types';
 const axios = require('axios');
 
 const BASEURL = process.env.BASEURL;
@@ -9,26 +11,11 @@ enum RecommendCommand {
   favourite = 'favourite',
 }
 
-enum ErrorType {
-  api = 'api',
-  badCommand = 'bad-command',
-}
-
 export const handleRecommendCommand = (arg: string, message: Message) => {
-  const sendError = (type: ErrorType, incorrectArg?: string) => {
-    let errorMessage;
-    switch (type) {
-      case 'api':
-        errorMessage = 'Oh no, something seems to have gone wrong.';
-        break;
-      case 'bad-command':
-        errorMessage = `That recommend type (${incorrectArg}) is not supported`;
-    }
-    message.channel.send(errorMessage);
-  };
+  const { channel } = message;
 
   const sendRecommendation = (slug) => {
-    message.channel.send(`${BASEURL}/books/${slug}`);
+    channel.send(`${BASEURL}/books/${slug}`);
   };
 
   const handleCommand = (type: RecommendCommand) => {
@@ -37,7 +24,7 @@ export const handleRecommendCommand = (arg: string, message: Message) => {
       .then((response) => sendRecommendation(response.data[0].slug))
       .catch((err) => {
         console.error(err);
-        sendError(ErrorType.api);
+        sendError(ErrorType.api, channel);
       });
   };
 
@@ -53,6 +40,6 @@ export const handleRecommendCommand = (arg: string, message: Message) => {
       handleCommand(RecommendCommand.favourite);
       break;
     default:
-      sendError(ErrorType.badCommand, arg);
+      sendError(ErrorType.badCommand, channel, { incorrectArg: arg });
   }
 };
