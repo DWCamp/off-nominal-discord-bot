@@ -1,4 +1,5 @@
 export enum ErrorType {
-  api = 'api',
-  badCommand = 'bad-command',
+  extApi = 'external-api',
+  discordApi = 'discord-api',
+  badArg = 'bad-argument',
 }

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 import { DMChannel, MessageEmbed, NewsChannel, TextChannel } from 'discord.js';
+import { ErrorType } from '../../types';
 
 export const handleHelpCommand = async (
   channel: TextChannel | DMChannel | NewsChannel
@@ -27,9 +28,11 @@ export const handleHelpCommand = async (
         value: `Gives you the book with the most community favourites in the last 60 days. And yes, that's favourite with a "u". :flag_ca:`,
       }
     );
+
   try {
     await channel.send(embed);
+    return true;
   } catch (err) {
-    console.error('Failed to send embed');
+    throw ErrorType.discordApi;
   }
 };

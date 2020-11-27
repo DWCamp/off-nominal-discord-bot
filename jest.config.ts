@@ -71,13 +71,13 @@ export default {
   // ],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node', 'd.ts'],
+  moduleFileExtensions: ['js', 'json', 'ts', 'node', 'd.ts'],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  // modulePathIgnorePatterns: [],
+  modulePathIgnorePatterns: ['<rootDir>/dist/'],
 
   // Activates notifications for test results
   // notify: false,

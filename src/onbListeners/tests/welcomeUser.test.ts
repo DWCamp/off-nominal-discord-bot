@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 import { TextChannel, Client, Guild, GuildMember } from 'discord.js';
-import { welcomeUser } from '../index';
+import { welcomeUser } from '../welcomeUser';
 
 describe('welcomeUser', () => {
   let client: Client;

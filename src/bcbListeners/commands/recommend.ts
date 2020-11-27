@@ -1,7 +1,6 @@
 require('dotenv').config();
 import { DMChannel, NewsChannel, TextChannel } from 'discord.js';
-import { sendError } from '../../../../helpers/sendError';
-import { ErrorType } from '../../../../types';
+import { ErrorType } from '../../types';
 const axios = require('axios');
 
 const BASEURL = process.env.BASEURL;
@@ -17,29 +16,30 @@ export const handleRecommendCommand = (
   channel: TextChannel | DMChannel | NewsChannel
 ) => {
   const handleCommand = async (type: RecommendCommand) => {
+    let response;
+
     try {
-      const response = await axios.get(
-        `${BASEURL}/api/recommendations?type=${type}`
-      );
-      await channel.send(`${BASEURL}/books/${response.data[0].slug}`);
+      response = await axios.get(`${BASEURL}/api/recommendations?type=${type}`);
     } catch (err) {
-      console.error(err);
-      sendError(ErrorType.api, channel);
+      throw ErrorType.extApi;
+    }
+
+    try {
+      await channel.send(`${BASEURL}/books/${response.data[0].slug}`);
+      return true;
+    } catch (err) {
+      throw ErrorType.discordApi;
     }
   };
 
   switch (arg) {
     case 'random':
-      handleCommand(RecommendCommand.random);
-      break;
+      return handleCommand(RecommendCommand.random);
     case 'best':
-      axios;
-      handleCommand(RecommendCommand.highestrated);
-      break;
+      return handleCommand(RecommendCommand.highestrated);
     case 'favourite':
-      handleCommand(RecommendCommand.favourite);
-      break;
+      return handleCommand(RecommendCommand.favourite);
     default:
-      sendError(ErrorType.badCommand, channel, { incorrectArg: arg });
+      throw ErrorType.badArg;
   }
 };
