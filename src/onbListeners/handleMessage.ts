@@ -1,6 +1,6 @@
 import { Client, Message } from 'discord.js';
 const { onbPrefix } = require('../../config/discord.json');
-import { parseMessage } from '../helpers';
+import { parseMessage } from '../helpers/parseMessage';
 import { testNewUser } from './commands/testNewUser';
 
 export const handleMessage = (client: Client, message: Message) => {

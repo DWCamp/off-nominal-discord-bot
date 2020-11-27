@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 import { Client, Guild, Message, TextChannel } from 'discord.js';
-import { parseMessage } from '..';
+import { parseMessage } from '../parseMessage';
 
 describe('parseMessage', () => {
   let client: Client;

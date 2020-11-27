@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 import { DMChannel, MessageEmbed, NewsChannel, TextChannel } from 'discord.js';
-import { ErrorType } from '../../types';
+import { ErrorType } from '../types';
 
 export const sendError = async (
   type: ErrorType,

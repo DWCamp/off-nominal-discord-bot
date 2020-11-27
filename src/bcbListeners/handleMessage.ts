@@ -1,6 +1,6 @@
 import { Message } from 'discord.js';
 const { bcbPrefix } = require('../../config/discord.json');
-import { parseMessage } from '../helpers';
+import { parseMessage } from '../helpers/parseMessage';
 import { handleRecommendCommand } from './commands/recommend';
 import { handleHelpCommand } from './commands/help';
 import { sendError } from '../helpers/sendError';
